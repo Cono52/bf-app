@@ -1,7 +1,7 @@
 {
   "name": "app",
   "version": "0.1.0",
-  "homepage": "http://cono52.github.io/flapjack",
+  "homepage": "http://cono52.github.io/bf-app",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",

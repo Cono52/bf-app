@@ -10,9 +10,9 @@ import registerServiceWorker from './registerServiceWorker';
 ReactDOM.render((
   <BrowserRouter>
     <Switch>
-      <Route exact path="/" component={App} />
-      <Route path="/admin" component={Admin} />
-      <Route path="/login" component={Login} />
+      <Route exact path={`${process.env.PUBLIC_URL}/`} component={App} />
+      <Route path={`${process.env.PUBLIC_URL}/admin`} component={Admin} />
+      <Route path={`${process.env.PUBLIC_URL}/login`} component={Login} />
     </Switch>
   </BrowserRouter>
 ), document.getElementById('root'));

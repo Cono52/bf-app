@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "cross-env": "^5.1.6",
     "eslint": "^4.19.1",
     "lodash": "^4.17.10",
     "react": "^16.3.2",
@@ -14,10 +15,10 @@
     "styled-components": "^3.2.6"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env REACT_APP_STAGE=dev react-scripts start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "build": "react-scripts build",
+    "build": "cross-env REACT_APP_STAGE=production react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "chrome": "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9222 'http://localhost:3000'"

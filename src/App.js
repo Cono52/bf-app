@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import uniqueId from 'lodash/uniqueId';
 import styled from 'styled-components';
+import env from './config';
 import fclogo from './fclogo.svg';
 
 const size = {
@@ -159,7 +160,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('https://beautynews-203522.appspot.com/getarticles?size=1000')
+    axios.get(`${env.apiGateway.URL}/getarticles?size=1000`)
       .then((res) => {
         this.setState({
           loadingArticles: false,

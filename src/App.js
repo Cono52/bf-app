@@ -5,6 +5,7 @@ import uniqueId from 'lodash/uniqueId';
 import styled from 'styled-components';
 import env from './config';
 import fclogo from './fclogo.svg';
+import store from './store';
 
 const size = {
   mobileS: '320px',
@@ -153,27 +154,36 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loadingArticles: true,
-      articles: [],
+      loadingArticles: !store.articles,
       error: null
     };
   }
 
   componentDidMount() {
-    axios.get(`${env.apiGateway.URL}/getarticles?size=1000`)
-      .then((res) => {
-        this.setState({
-          loadingArticles: false,
-          articles: res.data
+    if (!store.articles) {
+      axios.get(`${env.apiGateway.URL}/getarticles?size=1000`)
+        .then((res) => {
+          if (!this.__unmounted) {
+            store.articles = res.data;
+            this.setState({
+              loadingArticles: false
+            });
+          }
+        })
+        .catch((err) => {
+          const error = err.message ? err.message : err.response ? err.response.status : '?';
+          if (!this.__unmounted) {
+            this.setState({
+              loadingArticles: false,
+              error
+            });
+          }
         });
-      })
-      .catch((err) => {
-        const error = err.message ? err.message : err.response ? err.response.status : '?';
-        this.setState({
-          loadingArticles: false,
-          error
-        });
-      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.__unmounted = true;
   }
 
   render() {
@@ -192,7 +202,7 @@ class App extends Component {
               <Fragment>
                 <Title><span>F</span>ashion <span>N</span>ews</Title>
                 <TileContainer>
-                  { this.state.articles.map(article =>
+                  { store.articles.map(article =>
                       (
                         <ArticleTile key={uniqueId()}>
                           <a target="_blank" rel="noopener noreferrer" href={article.link}>

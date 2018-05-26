@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom'
-import { Button, Input } from './lib/components'  
+import { Button, Input } from './lib/components';
 
 const Container = styled.div`
   display: flex;
@@ -14,7 +13,7 @@ const Container = styled.div`
   }
 `;
 
-const LoginForm = styled.form`
+const RegisterForm = styled.form`
   display: flex;
   flex-direction: column;
   width: fit-content;
@@ -29,12 +28,13 @@ const LoginForm = styled.form`
   }
 `;
 
-class Login extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     };
   }
 
@@ -42,14 +42,15 @@ class Login extends Component {
     e.preventDefault();
     console.log('email: ', this.state.email);
     console.log('password: ', this.state.password);
+    console.log('confirmPassword: ', this.state.confirmPassword);
     this.props.history.push('/');
   }
 
   render() {
     return (
       <Container>
-        <h1>Login</h1>
-        <LoginForm onSubmit={this.submit}>
+        <h1>Register</h1>
+        <RegisterForm onSubmit={this.submit}>
           <label htmlFor="email">
             <p>Email</p>
             <Input
@@ -65,12 +66,19 @@ class Login extends Component {
               onChange={e => this.setState({ password: e.target.value })}
             />
           </label>
-          <Button type="submit">Log In</Button>
-          <Link to={'/register'}>Create an account.</Link>
-        </LoginForm>
+          <label htmlFor="confirm pasword">
+            <p>Confirm Password</p>
+            <Input
+              type='password'
+              value={this.state.confirmPassword}
+              onChange={e => this.setState({ confirmPassword: e.target.value })}
+            />
+          </label>
+          <Button type="submit" >Submit</Button>
+        </RegisterForm>
       </Container>
     );
   }
 }
 
-export default Login;
+export default Register;

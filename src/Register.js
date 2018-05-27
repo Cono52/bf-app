@@ -8,9 +8,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding-top: 2em;
-  > h1 {
-    color: #686868;
-  }
 `;
 
 const RegisterForm = styled.form`
@@ -19,7 +16,6 @@ const RegisterForm = styled.form`
   width: fit-content;
   > * { margin-bottom: 1em; }
   margin: 1em;
-  color: #888;
   > label {
     width: fit-content;
   }

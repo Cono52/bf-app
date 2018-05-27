@@ -5,7 +5,7 @@ import uniqueId from 'lodash/uniqueId';
 import styled from 'styled-components';
 import env from './config';
 import fclogo from './fclogo.svg';
-import store from './store';
+import { Spinner } from './lib/components';
 
 const size = {
   mobileS: '320px',
@@ -33,6 +33,9 @@ const Container = styled.div`
 `;
 
 const Banner = styled.div`
+  position: sticky;
+  overflow: hidden;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -53,8 +56,8 @@ const Login = styled(Link)`
 `;
 
 const Logo = styled.img`
-  width: 75px;
-  height: 75px;
+  width: 60px;
+  height: 60px;
   box-shadow: 0px 0px 0px 1px white;
   margin: 0 6.3em;
   @media ${device.laptop} {
@@ -154,32 +157,31 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loadingArticles: !store.articles,
+      loadingArticles: true,
+      articles: null,
       error: null
     };
   }
 
   componentDidMount() {
-    if (!store.articles) {
-      axios.get(`${env.apiGateway.URL}/getarticles?size=1000`)
-        .then((res) => {
-          if (!this.__unmounted) {
-            store.articles = res.data;
-            this.setState({
-              loadingArticles: false
-            });
-          }
-        })
-        .catch((err) => {
-          const error = err.message ? err.message : err.response ? err.response.status : '?';
-          if (!this.__unmounted) {
-            this.setState({
-              loadingArticles: false,
-              error
-            });
-          }
-        });
-    }
+    axios.get(`${env.apiGateway.URL}/getarticles?size=1000`)
+      .then((res) => {
+        if (!this.__unmounted) {
+          this.setState({
+            loadingArticles: false,
+            articles: [...res.data]
+          });
+        }
+      })
+      .catch((err) => {
+        const error = err.message ? err.message : err.response ? err.response.status : '?';
+        if (!this.__unmounted) {
+          this.setState({
+            loadingArticles: false,
+            error
+          });
+        }
+      });
   }
 
   componentWillUnmount() {
@@ -198,11 +200,11 @@ class App extends Component {
           { this.state.error ? <div>{ this.state.error }</div> :
           <Fragment>
             { this.state.loadingArticles ?
-              <div>loading</div> :
+              <Spinner /> :
               <Fragment>
                 <Title><span>F</span>ashion <span>N</span>ews</Title>
                 <TileContainer>
-                  { store.articles.map(article =>
+                  { this.state.articles.map(article =>
                       (
                         <ArticleTile key={uniqueId()}>
                           <a target="_blank" rel="noopener noreferrer" href={article.link}>

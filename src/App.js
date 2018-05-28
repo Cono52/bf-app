@@ -37,6 +37,7 @@ const Banner = styled.div`
   position: sticky;
   overflow: hidden;
   top: 0;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -178,7 +179,13 @@ class App extends Component {
           <Query query={gql`{ articles { title up_votes link } } `}>
             { ({ loading, error, data }) => {
               if (loading) return <Spinner />;
-              if (error) return <p>Error :(</p>;
+              if (error) {
+                return (
+                  <Fragment>
+                    <p>Oops, something went wrong :(</p>
+                    <p>{error.message}</p>
+                  </Fragment>);
+              }
               return (
                 <Fragment>
                   <Title><span>F</span>ashion <span>N</span>ews</Title>

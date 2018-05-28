@@ -20,6 +20,7 @@
   },
   "scripts": {
     "start": "cross-env REACT_APP_STAGE=dev react-scripts start",
+    "lint": "./node_modules/.bin/eslint ./src",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build": "cross-env REACT_APP_STAGE=production react-scripts build",
@@ -40,6 +41,7 @@
   "devDependencies": {
     "@types/enzyme": "^3.1.10",
     "@types/jest": "^22.2.3",
+    "babel-eslint": "^8.2.3",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.4",

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom'
-import { Button, Input } from './lib/components'  
+import { Link } from 'react-router-dom';
+import { Button, Input } from './lib/components';
 
 const Container = styled.div`
   display: flex;
@@ -56,13 +56,13 @@ class Login extends Component {
           <label htmlFor="pasword">
             <p>Password</p>
             <Input
-              type='password'
+              type="password"
               value={this.state.password}
               onChange={e => this.setState({ password: e.target.value })}
             />
           </label>
           <Button type="submit">Log In</Button>
-          <Link to={'/register'}>Create an account.</Link>
+          <Link to="/register">Create an account.</Link>
         </LoginForm>
       </Container>
     );

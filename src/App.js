@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { Query } from 'react-apollo';
 import uniqueId from 'lodash/uniqueId';
 import styled from 'styled-components';
-import env from './config';
+import gql from 'graphql-tag';
+
 import fclogo from './fclogo.svg';
 import { Spinner } from './lib/components';
 
@@ -157,31 +158,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loadingArticles: true,
-      articles: null,
-      error: null
+      loggedIn: false
     };
-  }
-
-  componentDidMount() {
-    axios.get(`${env.apiGateway.URL}/getarticles?size=1000`)
-      .then((res) => {
-        if (!this.__unmounted) {
-          this.setState({
-            loadingArticles: false,
-            articles: [...res.data]
-          });
-        }
-      })
-      .catch((err) => {
-        const error = err.message ? err.message : err.response ? err.response.status : '?';
-        if (!this.__unmounted) {
-          this.setState({
-            loadingArticles: false,
-            error
-          });
-        }
-      });
   }
 
   componentWillUnmount() {
@@ -197,28 +175,28 @@ class App extends Component {
           <Login to="/login">Login</Login>
         </Banner>
         <Content>
-          { this.state.error ? <div>{ this.state.error }</div> :
-          <Fragment>
-            { this.state.loadingArticles ?
-              <Spinner /> :
-              <Fragment>
-                <Title><span>F</span>ashion <span>N</span>ews</Title>
-                <TileContainer>
-                  { this.state.articles.map(article =>
-                      (
-                        <ArticleTile key={uniqueId()}>
-                          <a target="_blank" rel="noopener noreferrer" href={article.link}>
-                            { article.title }
-                          </a>
-                          <p>{ article.link.split('.')[1] }</p>
-                        </ArticleTile>
-                      ))
-                    }
-                </TileContainer>
-              </Fragment>
-              }
-          </Fragment>
-          }
+          <Query query={gql`{ articles { title up_votes link } } `}>
+            { ({ loading, error, data }) => {
+              if (loading) return <Spinner />;
+              if (error) return <p>Error :(</p>;
+              return (
+                <Fragment>
+                  <Title><span>F</span>ashion <span>N</span>ews</Title>
+                  <TileContainer>
+                    { data.articles.map(article =>
+                    (
+                      <ArticleTile key={uniqueId()}>
+                        <a target="_blank" rel="noopener noreferrer" href={article.link}>
+                          { article.title }
+                        </a>
+                        <p>{ article.link.split('.')[1] }</p>
+                      </ArticleTile>
+                    ))
+                  }
+                  </TileContainer>
+                </Fragment>);
+            }}
+          </Query>
         </Content>
       </Container>
     );

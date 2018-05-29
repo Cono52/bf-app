@@ -39,7 +39,7 @@ class Register extends Component {
     console.log('email: ', this.state.email);
     console.log('password: ', this.state.password);
     console.log('confirmPassword: ', this.state.confirmPassword);
-    this.props.history.push('/');
+    this.props.history.push(`${process.env.PUBLIC_URL}/`);
   }
 
   render() {

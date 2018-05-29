@@ -173,7 +173,7 @@ class App extends Component {
         <Banner>
           <Logo src={fclogo} alt="FNlogo" />
           <MobileTitle>Fashion News</MobileTitle>
-          <Login to="/login">Login</Login>
+          <Login to={`${process.env.PUBLIC_URL}/login`}>Login</Login>
         </Banner>
         <Content>
           <Query query={gql`{ articles { title up_votes link } } `}>

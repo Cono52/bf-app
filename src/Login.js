@@ -38,7 +38,7 @@ class Login extends Component {
     e.preventDefault();
     console.log('email: ', this.state.email);
     console.log('password: ', this.state.password);
-    this.props.history.push('/');
+    this.props.history.push(`${process.env.PUBLIC_URL}/`);
   }
 
   render() {
@@ -62,7 +62,7 @@ class Login extends Component {
             />
           </label>
           <Button type="submit">Log In</Button>
-          <Link to="/register">Create an account.</Link>
+          <Link to={`${process.env.PUBLIC_URL}/register`}>Create an account.</Link>
         </LoginForm>
       </Container>
     );

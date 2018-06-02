@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button, Input } from './lib/components';
+
+import env from './config';
 
 const Container = styled.div`
   display: flex;
@@ -36,9 +39,17 @@ class Login extends Component {
 
   submit = (e) => {
     e.preventDefault();
-    console.log('email: ', this.state.email);
-    console.log('password: ', this.state.password);
-    this.props.history.push(`${process.env.PUBLIC_URL}/`);
+    axios.post(`${env.apiGateway.URL}/login`, {
+      email: this.state.email,
+      password: this.state.password
+    })
+      .then((response) => {
+        localStorage.setItem('token', response.data.token);
+      })
+      .catch((error) => {
+        this.setState({ error: error.response.data.message });
+      });
+    // this.props.history.push(`${process.env.PUBLIC_URL}/`);
   }
 
   render() {
@@ -53,6 +64,7 @@ class Login extends Component {
               onChange={e => this.setState({ email: e.target.value })}
             />
           </label>
+          { this.state.error === 'User not found' && <div>We dont have an account with this email</div> }
           <label htmlFor="pasword">
             <p>Password</p>
             <Input
@@ -61,6 +73,7 @@ class Login extends Component {
               onChange={e => this.setState({ password: e.target.value })}
             />
           </label>
+          { this.state.error === 'Wrong Password' && <div>We dont have an account with this email</div> }
           <Button type="submit">Log In</Button>
           <Link to={`${process.env.PUBLIC_URL}/register`}>Create an account.</Link>
         </LoginForm>

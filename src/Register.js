@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import { Button, Input } from './lib/components';
+import env from './config';
 
 const Container = styled.div`
   display: flex;
@@ -36,9 +38,16 @@ class Register extends Component {
 
   submit = (e) => {
     e.preventDefault();
-    console.log('email: ', this.state.email);
-    console.log('password: ', this.state.password);
-    console.log('confirmPassword: ', this.state.confirmPassword);
+    axios.post(`${env.apiGateway.URL}/register`, {
+      email: this.state.email,
+      password: this.state.password
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     this.props.history.push(`${process.env.PUBLIC_URL}/`);
   }
 
@@ -57,7 +66,7 @@ class Register extends Component {
           <label htmlFor="pasword">
             <p>Password</p>
             <Input
-              type='password'
+              type="password"
               value={this.state.password}
               onChange={e => this.setState({ password: e.target.value })}
             />
@@ -65,7 +74,7 @@ class Register extends Component {
           <label htmlFor="confirm pasword">
             <p>Confirm Password</p>
             <Input
-              type='password'
+              type="password"
               value={this.state.confirmPassword}
               onChange={e => this.setState({ confirmPassword: e.target.value })}
             />

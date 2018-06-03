@@ -41,7 +41,7 @@ const Banner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(-500deg, #423669, #a190ff);
+  background: linear-gradient(-500deg, #423669, #bb29bb);
   width: 100%;
 `;
 

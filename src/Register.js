@@ -15,15 +15,26 @@ const Container = styled.div`
 const RegisterForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: fit-content;
+  width: 250px;
   > * { margin-bottom: 1em; }
   margin: 1em;
   > label {
-    width: fit-content;
+    width: 100%;
   }
   p {
     margin-left: 0.5em;
   }
+`;
+
+const ErrorMessage = styled.div`
+  display: flex;
+  background-color: #EE1C1C;
+  border-radius: 2px;
+  box-sizing: border-box;
+  padding: 0.5em;
+  color: white;
+  width: 100%;
+  flex-wrap: wrap;
 `;
 
 class Register extends Component {
@@ -38,17 +49,25 @@ class Register extends Component {
 
   submit = (e) => {
     e.preventDefault();
-    axios.post(`${env.apiGateway.URL}/register`, {
-      email: this.state.email,
-      password: this.state.password
-    })
-      .then((response) => {
-        console.log(response);
+    if (this.state.password !== '' && this.state.email !== '' && this.state.password === this.state.confirmPassword) {
+      this.setState({ passwordsDontMatch: false });
+      axios.post(`${env.apiGateway.URL}/register`, {
+        email: this.state.email,
+        password: this.state.password
       })
-      .catch((error) => {
-        console.log(error);
-      });
-    this.props.history.push(`${process.env.PUBLIC_URL}/`);
+        .then(() => {
+          this.props.history.push(`${process.env.PUBLIC_URL}/login?registered=true`);
+        })
+        .catch((error) => {
+          if (error.response.data.message) {
+            this.setState({ error: error.response.data.message });
+          } else {
+            this.setState({ error: 'Something went wrong!' });
+          }
+        });
+    } else if (this.state.password !== this.state.confirmPassword) {
+      this.setState({ passwordsDontMatch: true });
+    }
   }
 
   render() {
@@ -56,6 +75,7 @@ class Register extends Component {
       <Container>
         <h1>Register</h1>
         <RegisterForm onSubmit={this.submit}>
+          { this.state.error && <ErrorMessage>{ this.state.error }</ErrorMessage>}
           <label htmlFor="email">
             <p>Email</p>
             <Input
@@ -79,6 +99,7 @@ class Register extends Component {
               onChange={e => this.setState({ confirmPassword: e.target.value })}
             />
           </label>
+          { this.state.passwordsDontMatch && <ErrorMessage>Passwords do not match.</ErrorMessage>}
           <Button type="submit" >Submit</Button>
         </RegisterForm>
       </Container>

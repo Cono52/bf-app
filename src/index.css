@@ -8,6 +8,14 @@
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 
+ :root {
+  --red-error: #EE1C1C;
+  --congo-brown: #553535;
+  --main-purple: #BB29BB;
+  --celery: #A4C35C;
+  --ripe-lemon: #EEEB1C;
+ }
+
  html {
 	line-height: 1.15; /* 1 */
 	-webkit-text-size-adjust: 100%; /* 2 */

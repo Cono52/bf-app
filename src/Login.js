@@ -17,15 +17,26 @@ const Container = styled.div`
 const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: fit-content;
+  width: 250px;
   > * { margin-bottom: 1em; }
   margin: 1em;
   > label {
-    width: fit-content;
+    width: 100%;
   }
   p {
     margin-left: 0.5em;
   }
+`;
+
+const ErrorMessage = styled.div`
+  display: flex;
+  background-color: #EE1C1C;
+  border-radius: 2px;
+  box-sizing: border-box;
+  padding: 0.5em;
+  color: white;
+  width: 100%;
+  flex-wrap: wrap;
 `;
 
 class Login extends Component {
@@ -33,7 +44,8 @@ class Login extends Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      initialLoginMessage: this.props.location.search === '?registered=true'
     };
   }
 
@@ -56,6 +68,7 @@ class Login extends Component {
     return (
       <Container>
         <h1>Login</h1>
+        { this.state.initialLoginMessage && <div>Registration Successful!</div> }
         <LoginForm onSubmit={this.submit}>
           <label htmlFor="email">
             <p>Email</p>
@@ -64,7 +77,7 @@ class Login extends Component {
               onChange={e => this.setState({ email: e.target.value })}
             />
           </label>
-          { this.state.error === 'User not found' && <div>We dont have an account with this email</div> }
+          { this.state.error === 'User not found' && <ErrorMessage>We dont have an account with this email!</ErrorMessage> }
           <label htmlFor="pasword">
             <p>Password</p>
             <Input
@@ -73,7 +86,7 @@ class Login extends Component {
               onChange={e => this.setState({ password: e.target.value })}
             />
           </label>
-          { this.state.error === 'Wrong Password' && <div>We dont have an account with this email</div> }
+          { this.state.error === 'Wrong Password' && <ErrorMessage>Incorrect password!</ErrorMessage> }
           <Button type="submit">Log In</Button>
           <Link to={`${process.env.PUBLIC_URL}/register`}>Create an account.</Link>
         </LoginForm>

@@ -36,14 +36,14 @@ const InputLabel = styled.div`
     padding-left: 0.5em;
   }
   > p > span {
-    color: orange;
+    color: var(--main-purple);
     padding-right: 0.3em;
   }
 `;
 
 const ErrorMessage = styled.div`
   display: flex;
-  background-color: #EE1C1C;
+  background-color: var(--red-error);
   border-radius: 2px;
   box-sizing: border-box;
   padding: 0.5em;

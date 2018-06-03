@@ -41,7 +41,7 @@ const Banner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(-500deg, #423669, #bb29bb);
+  background: linear-gradient(-250deg, var(--light-purple), var(--main-purple));
   width: 100%;
 `;
 
@@ -101,10 +101,10 @@ const MobileTitle = styled.div`
 const Title = styled.div`
   margin: 0.7em 0em;
   font-size: 4em;
-  color: #656565;
+  color: var(--text);
   span {
     font-weight: bold;
-    color: #5F4B8B;
+    color: var(--main-purple);
   }
 
   @media ${device.laptop} {
@@ -136,7 +136,7 @@ const ArticleTile = styled.div`
   }
   p {
     margin-top: 0.5em;
-    color: #5F4B8B;
+    color: var(--text);
     @media ${device.mobileM} {
       margin-top: 0.5em;
     }
@@ -146,10 +146,10 @@ const ArticleTile = styled.div`
     @media ${device.mobileM} {
       font-size: 1.1em;
     }
-    color: black;
+    color: var(--text);
     text-decoration: none;
     &:hover, :visited {
-      color: #806aaf;
+      color: var(--main-purple);
     }
     transition: all 0.2s ease-in-out;
   }

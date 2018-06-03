@@ -14,7 +14,7 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: #645495;
+    background-color: var(--main-purple);
     opacity: 0.6;
     position: absolute;
     top: 0;

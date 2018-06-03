@@ -11,9 +11,12 @@
  :root {
   --red-error: #EE1C1C;
   --congo-brown: #553535;
-  --main-purple: #BB29BB;
+  --main-purple: #645495;
+  --light-purple: #977FE1;
+  --dark-purple: #393055;
   --celery: #A4C35C;
   --ripe-lemon: #EEEB1C;
+  --text: #333;
  }
 
  html {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import FontAwesome from 'react-fontawesome';
 import axios from 'axios';
 import { Button, Input } from './lib/components';
 import env from './config';
@@ -13,6 +14,8 @@ const Container = styled.div`
 `;
 
 const RegisterForm = styled.form`
+  font-family: Helvetica, sans-serif;
+  font-size: 0.75rem;
   display: flex;
   flex-direction: column;
   width: 250px;
@@ -23,6 +26,19 @@ const RegisterForm = styled.form`
   }
   p {
     margin-left: 0.5em;
+  }
+`;
+
+const InputLabel = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.2em;
+  > :first-child {
+    padding-left: 0.5em;
+  }
+  > p > span {
+    color: orange;
+    padding-right: 0.3em;
   }
 `;
 
@@ -49,7 +65,16 @@ class Register extends Component {
 
   submit = (e) => {
     e.preventDefault();
-    if (this.state.password !== '' && this.state.email !== '' && this.state.password === this.state.confirmPassword) {
+    this.setState({ error: undefined, emailError: undefined, passwordError: undefined });
+    if (this.state.email === '') {
+      this.setState({ emailError: 'Please enter an email' });
+      return;
+    }
+    if (this.state.password === '') {
+      this.setState({ passwordError: 'Please enter password' });
+      return;
+    }
+    if (this.state.password === this.state.confirmPassword) {
       this.setState({ passwordsDontMatch: false });
       axios.post(`${env.apiGateway.URL}/register`, {
         email: this.state.email,
@@ -77,14 +102,32 @@ class Register extends Component {
         <RegisterForm onSubmit={this.submit}>
           { this.state.error && <ErrorMessage>{ this.state.error }</ErrorMessage>}
           <label htmlFor="email">
-            <p>Email</p>
+            <InputLabel>
+              <p>Email</p>
+              { this.state.emailError &&
+                <p>
+                  <FontAwesome
+                    name="exclamation-triangle"
+                  />{this.state.emailError}
+                </p>
+              }
+            </InputLabel>
             <Input
               value={this.state.email}
               onChange={e => this.setState({ email: e.target.value })}
             />
           </label>
-          <label htmlFor="pasword">
-            <p>Password</p>
+          <label htmlFor="password">
+            <InputLabel>
+              <p>Password</p>
+              { this.state.passwordError &&
+                <p>
+                  <FontAwesome
+                    name="exclamation-triangle"
+                  />{this.state.passwordError}
+                </p>
+              }
+            </InputLabel>
             <Input
               type="password"
               value={this.state.password}
@@ -92,7 +135,9 @@ class Register extends Component {
             />
           </label>
           <label htmlFor="confirm pasword">
-            <p>Confirm Password</p>
+            <InputLabel>
+              <p>Confirm Password</p>
+            </InputLabel>
             <Input
               type="password"
               value={this.state.confirmPassword}

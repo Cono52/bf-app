@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import FontAwesome from 'react-fontawesome';
 import axios from 'axios';
 import { Button, Input } from './lib/components';
+import isValidEmail from './lib/helpers/isValidEmail';
 import env from './config';
 
 const Container = styled.div`
@@ -24,9 +25,6 @@ const RegisterForm = styled.form`
   > label {
     width: 100%;
   }
-  p {
-    margin-left: 0.5em;
-  }
 `;
 
 const InputLabel = styled.div`
@@ -37,7 +35,7 @@ const InputLabel = styled.div`
     padding-left: 0.5em;
   }
   > p > span {
-    color: var(--main-purple);
+    color: var(--light-purple);
     padding-right: 0.3em;
   }
 `;
@@ -68,6 +66,10 @@ class Register extends Component {
     this.setState({ error: undefined, emailError: undefined, passwordError: undefined });
     if (this.state.email === '') {
       this.setState({ emailError: 'Please enter an email' });
+      return;
+    }
+    if (!isValidEmail(this.state.email)) {
+      this.setState({ emailError: 'Invalid Email!' });
       return;
     }
     if (this.state.password === '') {

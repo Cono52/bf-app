@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Admin extends Component {
   render() {
-    return (
-      <div>Admin App</div>
-    );
+    return <div>Admin App</div>;
   }
 }
 

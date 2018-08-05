@@ -1,21 +1,21 @@
-import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { Query } from 'react-apollo';
-import uniqueId from 'lodash/uniqueId';
-import styled from 'styled-components';
-import gql from 'graphql-tag';
+import React, { Component, Fragment } from "react";
+import { Link } from "react-router-dom";
+import { Query } from "react-apollo";
+import uniqueId from "lodash/uniqueId";
+import styled from "styled-components";
+import gql from "graphql-tag";
 
-import fclogo from './fclogo.svg';
-import { Spinner } from './lib/components';
+import fclogo from "./fclogo.svg";
+import { Spinner } from "./lib/components";
 
 const size = {
-  mobileS: '320px',
-  mobileM: '375px',
-  mobileL: '425px',
-  tablet: '768px',
-  laptop: '1024px',
-  laptopL: '1440px',
-  desktop: '2560px'
+  mobileS: "320px",
+  mobileM: "375px",
+  mobileL: "425px",
+  tablet: "768px",
+  laptop: "1024px",
+  laptopL: "1440px",
+  desktop: "2560px"
 };
 
 export const device = {
@@ -109,15 +109,15 @@ const Title = styled.div`
 
   @media ${device.laptop} {
     font-size: 2.5em;
-    margin: 1.0em 0em;
+    margin: 1em 0em;
   }
   @media ${device.tablet} {
     font-size: 2.3em;
-    margin: 1.0em 0em;
+    margin: 1em 0em;
   }
   @media ${device.mobileM} {
     font-size: 2em;
-    margin: 1.0em 0em;
+    margin: 1em 0em;
     display: none;
   }
 `;
@@ -148,7 +148,8 @@ const ArticleTile = styled.div`
     }
     color: var(--text);
     text-decoration: none;
-    &:hover, :visited {
+    &:hover,
+    :visited {
       color: var(--main-purple);
     }
     transition: all 0.2s ease-in-out;
@@ -176,32 +177,48 @@ class App extends Component {
           <Login to={`${process.env.PUBLIC_URL}/login`}>Login</Login>
         </Banner>
         <Content>
-          <Query query={gql`{ articles { title up_votes link } } `}>
-            { ({ loading, error, data }) => {
+          <Query
+            query={gql`
+              {
+                articles {
+                  title
+                  up_votes
+                  link
+                }
+              }
+            `}
+          >
+            {({ loading, error, data }) => {
               if (loading) return <Spinner />;
               if (error) {
                 return (
                   <Fragment>
                     <p>Oops, something went wrong :(</p>
                     <p>{error.message}</p>
-                  </Fragment>);
+                  </Fragment>
+                );
               }
               return (
                 <Fragment>
-                  <Title><span>F</span>ashion <span>N</span>ews</Title>
+                  <Title>
+                    <span>F</span>ashion <span>N</span>ews
+                  </Title>
                   <TileContainer>
-                    { data.articles.map(article =>
-                    (
+                    {data.articles.map(article => (
                       <ArticleTile key={uniqueId()}>
-                        <a target="_blank" rel="noopener noreferrer" href={article.link}>
-                          { article.title }
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={article.link}
+                        >
+                          {article.title}
                         </a>
-                        <p>{ article.link.split('.')[1] }</p>
+                        <p>{article.link.split(".")[1]}</p>
                       </ArticleTile>
-                    ))
-                  }
+                    ))}
                   </TileContainer>
-                </Fragment>);
+                </Fragment>
+              );
             }}
           </Query>
         </Content>

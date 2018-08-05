@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Button = styled.button`
   background: linear-gradient(-500deg, var(--dark-purple), var(--light-purple));
@@ -10,10 +10,18 @@ const Button = styled.button`
   color: white;
   border-radius: 2px;
   &:hover {
-    background: linear-gradient(-500deg, var(--light-purple), var(--light-purple));
+    background: linear-gradient(
+      -500deg,
+      var(--light-purple),
+      var(--light-purple)
+    );
   }
   &:active {
-    background: linear-gradient(-500deg, var(--dark-purple), var(--dark-purple));
+    background: linear-gradient(
+      -500deg,
+      var(--dark-purple),
+      var(--dark-purple)
+    );
   }
 `;
 

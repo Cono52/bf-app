@@ -1,9 +1,5 @@
-import Button from './button';
-import Input from './input';
-import Spinner from './spinner';
+import Button from "./button";
+import Input from "./input";
+import Spinner from "./spinner";
 
-export {
-  Button,
-  Input,
-  Spinner
-};
+export { Button, Input, Spinner };

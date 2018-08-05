@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import FontAwesome from 'react-fontawesome';
-import axios from 'axios';
-import { Button, Input } from './lib/components';
-import isValidEmail from './lib/helpers/isValidEmail';
-import env from './config';
+import React, { Component } from "react";
+import styled from "styled-components";
+import FontAwesome from "react-fontawesome";
+import axios from "axios";
+import { Button, Input } from "./lib/components";
+import isValidEmail from "./lib/helpers/isValidEmail";
+import env from "./config";
 
 const Container = styled.div`
   display: flex;
@@ -20,7 +20,9 @@ const RegisterForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 250px;
-  > * { margin-bottom: 1em; }
+  > * {
+    margin-bottom: 1em;
+  }
   margin: 1em;
   > label {
     width: 100%;
@@ -55,99 +57,117 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      confirmPassword: ''
+      email: "",
+      password: "",
+      confirmPassword: ""
     };
   }
 
-  submit = (e) => {
+  submit = e => {
+    const { email, password, confirmPassword } = this.state;
     e.preventDefault();
-    this.setState({ error: undefined, emailError: undefined, passwordError: undefined });
-    if (this.state.email === '') {
-      this.setState({ emailError: 'Please enter an email' });
+    this.setState({
+      error: undefined,
+      emailError: undefined,
+      passwordError: undefined
+    });
+    if (email === "") {
+      this.setState({ emailError: "Please enter an email" });
       return;
     }
-    if (!isValidEmail(this.state.email)) {
-      this.setState({ emailError: 'Invalid Email!' });
+    if (!isValidEmail(email)) {
+      this.setState({ emailError: "Invalid Email!" });
       return;
     }
-    if (this.state.password === '') {
-      this.setState({ passwordError: 'Please enter password' });
+    if (password === "") {
+      this.setState({ passwordError: "Please enter password" });
       return;
     }
-    if (this.state.password === this.state.confirmPassword) {
+    if (password === confirmPassword) {
       this.setState({ passwordsDontMatch: false });
-      axios.post(`${env.apiGateway.URL}/register`, {
-        email: this.state.email,
-        password: this.state.password
-      })
+      axios
+        .post(`${env.apiGateway.URL}/register`, { email, password })
         .then(() => {
-          this.props.history.push(`${process.env.PUBLIC_URL}/login?registered=true`);
+          this.props.history.push(
+            `${process.env.PUBLIC_URL}/login?registered=true`
+          );
         })
-        .catch((error) => {
+        .catch(error => {
           if (error.response.data.message) {
             this.setState({ error: error.response.data.message });
           } else {
-            this.setState({ error: 'Something went wrong!' });
+            this.setState({ error: "Something went wrong!" });
           }
         });
-    } else if (this.state.password !== this.state.confirmPassword) {
+    } else if (password !== confirmPassword) {
       this.setState({ passwordsDontMatch: true });
     }
-  }
+  };
 
   render() {
+    const {
+      error,
+      email,
+      emailError,
+      passwordError,
+      password,
+      confirmPassword,
+      passwordsDontMatch
+    } = this.state;
     return (
       <Container>
         <h1>Register</h1>
         <RegisterForm onSubmit={this.submit}>
-          { this.state.error && <ErrorMessage>{ this.state.error }</ErrorMessage>}
+          {error && <ErrorMessage>{error}</ErrorMessage>}
           <label htmlFor="email">
             <InputLabel>
               <p>Email</p>
-              { this.state.emailError &&
+              {emailError && (
                 <p>
-                  <FontAwesome
-                    name="exclamation-triangle"
-                  />{this.state.emailError}
+                  <FontAwesome name="exclamation-triangle" />
+                  {emailError}
                 </p>
-              }
+              )}
             </InputLabel>
             <Input
-              value={this.state.email}
+              id="email"
+              name="email"
+              value={email}
               onChange={e => this.setState({ email: e.target.value })}
             />
           </label>
           <label htmlFor="password">
             <InputLabel>
               <p>Password</p>
-              { this.state.passwordError &&
+              {passwordError && (
                 <p>
-                  <FontAwesome
-                    name="exclamation-triangle"
-                  />{this.state.passwordError}
+                  <FontAwesome name="exclamation-triangle" />
+                  {passwordError}
                 </p>
-              }
+              )}
             </InputLabel>
             <Input
               type="password"
-              value={this.state.password}
+              id="password"
+              value={password}
               onChange={e => this.setState({ password: e.target.value })}
             />
           </label>
-          <label htmlFor="confirm pasword">
+          <label htmlFor="confirmPassword">
             <InputLabel>
               <p>Confirm Password</p>
             </InputLabel>
             <Input
               type="password"
-              value={this.state.confirmPassword}
+              id="confirmPassword"
+              value={confirmPassword}
               onChange={e => this.setState({ confirmPassword: e.target.value })}
             />
           </label>
-          { this.state.passwordsDontMatch && <ErrorMessage>Passwords do not match.</ErrorMessage>}
-          <Button type="submit" >Submit</Button>
+          {passwordsDontMatch && (
+            <ErrorMessage>Passwords do not match.</ErrorMessage>
+          )}
+          <Button type="submit">Submit</Button>
         </RegisterForm>
       </Container>
     );

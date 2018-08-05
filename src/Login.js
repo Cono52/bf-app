@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import FontAwesome from 'react-fontawesome';
-import { Button, Input } from './lib/components';
-import isValidEmail from './lib/helpers/isValidEmail';
+import React, { Component } from "react";
+import styled from "styled-components";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import FontAwesome from "react-fontawesome";
+import { Button, Input } from "./lib/components";
+import isValidEmail from "./lib/helpers/isValidEmail";
 
-import env from './config';
+import env from "./config";
 
 const Container = styled.div`
   display: flex;
@@ -22,7 +22,9 @@ const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 250px;
-  > * { margin-bottom: 1em; }
+  > * {
+    margin-bottom: 1em;
+  }
   margin: 1em;
   > label {
     width: 100%;
@@ -57,73 +59,74 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      initialLoginMessage: this.props.location.search === '?registered=true'
+      email: "",
+      password: "",
+      initialLoginMessage: this.props.location.search === "?registered=true"
     };
   }
 
-  submit = (e) => {
+  submit = e => {
+    const { email, password } = this.state;
     e.preventDefault();
-    this.setState({ error: undefined, emailError: undefined, passwordError: undefined });
-    if (this.state.email === '') {
-      this.setState({ emailError: 'Please enter an email' });
+    this.setState({
+      error: undefined,
+      emailError: undefined,
+      passwordError: undefined
+    });
+    if (email === "") {
+      this.setState({ emailError: "Please enter an email" });
       return;
     }
-    if (!isValidEmail(this.state.email)) {
-      this.setState({ emailError: 'Invalid Email!' });
+    if (!isValidEmail(email)) {
+      this.setState({ emailError: "Invalid Email!" });
       return;
     }
-    if (this.state.password === '') {
-      this.setState({ passwordError: 'Please enter password' });
+    if (password === "") {
+      this.setState({ passwordError: "Please enter password" });
       return;
     }
-    axios.post(`${env.apiGateway.URL}/login`, {
-      email: this.state.email,
-      password: this.state.password
-    })
-      .then((response) => {
-        localStorage.setItem('token', response.data.token);
-      })
-      .catch((error) => {
-        this.setState({ error: error.response.data.message });
-      });
+    axios
+      .post(`${env.apiGateway.URL}/login`, { email, password })
+      .then(response => localStorage.setItem("token", response.data.token))
+      .catch(error => this.setState({ error: error.response.data.message }));
     // this.props.history.push(`${process.env.PUBLIC_URL}/`);
-  }
+  };
 
   render() {
     return (
       <Container>
         <h1>Login</h1>
-        { this.state.initialLoginMessage && <div>Registration Successful!</div> }
+        {this.state.initialLoginMessage && <div>Registration Successful!</div>}
         <LoginForm onSubmit={this.submit}>
           <label htmlFor="email">
             <InputLabel>
               <p>Email</p>
-              { this.state.emailError &&
+              {this.state.emailError && (
                 <p>
-                  <FontAwesome
-                    name="exclamation-triangle"
-                  />{this.state.emailError}
+                  <FontAwesome name="exclamation-triangle" />
+                  {this.state.emailError}
                 </p>
-              }
+              )}
             </InputLabel>
             <Input
               value={this.state.email}
               onChange={e => this.setState({ email: e.target.value })}
             />
           </label>
-          { this.state.error === 'User not found' && <ErrorMessage>We dont have an account with this email!</ErrorMessage> }
+          {this.state.error === "User not found" && (
+            <ErrorMessage>
+              We dont have an account with this email!
+            </ErrorMessage>
+          )}
           <label htmlFor="pasword">
             <InputLabel>
               <p>Password</p>
-              { this.state.passwordError &&
+              {this.state.passwordError && (
                 <p>
-                  <FontAwesome
-                    name="exclamation-triangle"
-                  />{ this.state.passwordError }
+                  <FontAwesome name="exclamation-triangle" />
+                  {this.state.passwordError}
                 </p>
-              }
+              )}
             </InputLabel>
             <Input
               type="password"
@@ -131,9 +134,13 @@ class Login extends Component {
               onChange={e => this.setState({ password: e.target.value })}
             />
           </label>
-          { this.state.error === 'Wrong Password' && <ErrorMessage>Incorrect password!</ErrorMessage> }
+          {this.state.error === "Wrong Password" && (
+            <ErrorMessage>Incorrect password!</ErrorMessage>
+          )}
           <Button type="submit">Log In</Button>
-          <Link to={`${process.env.PUBLIC_URL}/register`}>Create an account.</Link>
+          <Link to={`${process.env.PUBLIC_URL}/register`}>
+            Create an account.
+          </Link>
         </LoginForm>
       </Container>
     );

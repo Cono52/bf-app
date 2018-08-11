@@ -86,7 +86,7 @@ class Register extends Component {
     if (password === confirmPassword) {
       this.setState({ passwordsDontMatch: false });
       axios
-        .post(`${env.apiGateway.URL}/register`, { email, password })
+        .post(`${env.apiGateway.URL}/user/register`, { email, password })
         .then(() => {
           this.props.history.push(
             `${process.env.PUBLIC_URL}/login?registered=true`

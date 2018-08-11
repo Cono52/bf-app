@@ -86,7 +86,7 @@ class Login extends Component {
       return;
     }
     axios
-      .post(`${env.apiGateway.URL}/login`, { email, password })
+      .post(`${env.apiGateway.URL}/user/login`, { email, password })
       .then(response => localStorage.setItem("token", response.data.token))
       .catch(error => this.setState({ error: error.response.data.message }));
     // this.props.history.push(`${process.env.PUBLIC_URL}/`);

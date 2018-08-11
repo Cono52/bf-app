@@ -76,9 +76,9 @@ const Logo = styled.img`
 `;
 
 const Content = styled.div`
-  padding: 1em 7em;
+  padding: 1em 21vw;
   @media ${device.laptop} {
-    padding: 1em 3.5em;
+    padding: 1em 14vw;
   }
   @media ${device.tablet} {
     padding: 1em 2.5em;

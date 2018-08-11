@@ -6,7 +6,7 @@ const dev = {
 
 const prod = {
   apiGateway: {
-    URL: "https://beautynews-203522.appspot.com"
+    URL: "https://obscure-hollows-21413.herokuapp.com"
   }
 };
 

@@ -87,9 +87,12 @@ class Login extends Component {
     }
     axios
       .post(`${env.apiGateway.URL}/user/login`, { email, password })
-      .then(response => localStorage.setItem("token", response.data.token))
+      .then(response => {
+        localStorage.setItem("token", response.data.token);
+        this.props.loginSuccess();
+        this.props.history.push(`${process.env.PUBLIC_URL}/`);
+      })
       .catch(error => this.setState({ error: error.response.data.message }));
-    // this.props.history.push(`${process.env.PUBLIC_URL}/`);
   };
 
   render() {
@@ -98,6 +101,7 @@ class Login extends Component {
         <h1>Login</h1>
         {this.state.initialLoginMessage && <div>Registration Successful!</div>}
         <LoginForm onSubmit={this.submit}>
+          {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
           <label htmlFor="email">
             <InputLabel>
               <p>Email</p>
@@ -109,6 +113,8 @@ class Login extends Component {
               )}
             </InputLabel>
             <Input
+              name="email"
+              id="email"
               value={this.state.email}
               onChange={e => this.setState({ email: e.target.value })}
             />
@@ -130,6 +136,7 @@ class Login extends Component {
             </InputLabel>
             <Input
               type="password"
+              name="password"
               value={this.state.password}
               onChange={e => this.setState({ password: e.target.value })}
             />

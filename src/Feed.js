@@ -5,6 +5,7 @@ import uniqueId from "lodash/uniqueId";
 import styled from "styled-components";
 import gql from "graphql-tag";
 
+import theme from "./lib/theme";
 import fclogo from "./fclogo.svg";
 import { Spinner } from "./lib/components";
 
@@ -41,7 +42,12 @@ const Banner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(-250deg, var(--light-purple), var(--main-purple));
+  background-color: #645495;
+  background: linear-gradient(
+    -250deg,
+    ${theme.colors.lightPurple},
+    ${theme.colors.mainPurple}
+  );
   width: 100%;
 `;
 
@@ -101,10 +107,10 @@ const MobileTitle = styled.div`
 const Title = styled.div`
   margin: 0.7em 0em;
   font-size: 4em;
-  color: var(--text);
+  color: ${theme.colors.text};
   span {
     font-weight: bold;
-    color: var(--main-purple);
+    color: ${theme.colors.mainPurple};
   }
 
   @media ${device.laptop} {
@@ -136,7 +142,7 @@ const ArticleTile = styled.div`
   }
   p {
     margin-top: 0.5em;
-    color: var(--text);
+    color: ${theme.colors.text};
     @media ${device.mobileM} {
       margin-top: 0.5em;
     }
@@ -146,11 +152,11 @@ const ArticleTile = styled.div`
     @media ${device.mobileM} {
       font-size: 1.1em;
     }
-    color: var(--text);
+    color: ${theme.colors.text};
     text-decoration: none;
     &:hover,
     :visited {
-      color: var(--main-purple);
+      color: ${theme.colors.mainPurple};
     }
     transition: all 0.2s ease-in-out;
   }

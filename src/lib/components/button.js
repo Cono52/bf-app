@@ -1,7 +1,12 @@
 import styled from "styled-components";
+import theme from "../theme";
 
 const Button = styled.button`
-  background: linear-gradient(-500deg, var(--dark-purple), var(--light-purple));
+  background: linear-gradient(
+    -500deg,
+    ${theme.colors.darkPurple},
+    ${theme.colors.lightPurple}
+  );
   text-decoration: none;
   outline: none;
   border: none;
@@ -12,15 +17,15 @@ const Button = styled.button`
   &:hover {
     background: linear-gradient(
       -500deg,
-      var(--light-purple),
-      var(--light-purple)
+      ${theme.colors.lightPurple},
+      ${theme.colors.lightPurple}
     );
   }
   &:active {
     background: linear-gradient(
       -500deg,
-      var(--dark-purple),
-      var(--dark-purple)
+      ${theme.colors.darkPurple},
+      ${theme.colors.darkPurple}
     );
   }
 `;

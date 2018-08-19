@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import theme from "../theme";
 
 const Container = styled.div`
   .spinner {
@@ -14,7 +15,7 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: var(--main-purple);
+    background-color: ${theme.colors.mainPurple};
     opacity: 0.6;
     position: absolute;
     top: 0;

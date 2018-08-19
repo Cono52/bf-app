@@ -6,6 +6,7 @@ import FontAwesome from "react-fontawesome";
 import { Button, Input } from "./lib/components";
 import isValidEmail from "./lib/helpers/isValidEmail";
 
+import theme from "./lib/theme";
 import env from "./config";
 
 const Container = styled.div`
@@ -39,14 +40,14 @@ const InputLabel = styled.div`
     padding-left: 0.5em;
   }
   > p > span {
-    color: var(--light-purple);
+    color: ${theme.colors.lightPurple};
     padding-right: 0.3em;
   }
 `;
 
 const ErrorMessage = styled.div`
   display: flex;
-  background-color: var(--red-error);
+  background-color: ${theme.colors.redError};
   border-radius: 2px;
   box-sizing: border-box;
   padding: 0.5em;

@@ -5,6 +5,7 @@ import axios from "axios";
 import { Button, Input } from "./lib/components";
 import isValidEmail from "./lib/helpers/isValidEmail";
 import env from "./config";
+import theme from "./lib/theme";
 
 const Container = styled.div`
   display: flex;
@@ -37,14 +38,14 @@ const InputLabel = styled.div`
     padding-left: 0.5em;
   }
   > p > span {
-    color: var(--light-purple);
+    color: ${theme.colors.lightPurple};
     padding-right: 0.3em;
   }
 `;
 
 const ErrorMessage = styled.div`
   display: flex;
-  background-color: var(--red-error);
+  background-color: ${theme.colors.redError};
   border-radius: 2px;
   box-sizing: border-box;
   padding: 0.5em;

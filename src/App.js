@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import jwtdecode from "jwt-decode";
 import Feed from "./Feed";
 import Admin from "./Admin";
 import Login from "./Login";
 import Register from "./Register";
-import jwtdecode from "jwt-decode";
 
 class App extends Component {
   constructor() {
